@@ -17,7 +17,7 @@ export default function Swimlane(props) {
   return (
     <div className="Swimlane-column">
       <div className="Swimlane-title">{props.name}</div>
-      <div className="Swimlane-dragColumn" ref={props.dragulaRef}>
+      <div className="Swimlane-dragColumn" ref={props.dragulaRef} aria-label={props.name}>
         {cards}
       </div>
     </div>

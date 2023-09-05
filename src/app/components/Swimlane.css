@@ -3,6 +3,10 @@
     font-weight: bold;
     font-size: 18px;
   }
+
+  /* .Swimlane-Column  {
+
+  } */
   
   .Swimlane-dragColumn {
     height: calc(100vh - 100px);

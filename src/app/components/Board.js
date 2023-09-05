@@ -1,8 +1,8 @@
 "use client";
-import { useState, useRef } from "react";
-import Dragula from "dragula";
+import { useState, useRef, useEffect } from "react";
 import "dragula/dist/dragula.css";
 import Swimlane from "./Swimlane";
+import dragula from "dragula";
 
 function getClients() {
   return [
@@ -80,7 +80,7 @@ function getClients() {
     id: companyDetails[0],
     name: companyDetails[1],
     description: companyDetails[2],
-    status: companyDetails[3],
+    status: "backlog",
   }));
 }
 
@@ -95,6 +95,35 @@ export default function Board() {
   function renderSwimlane(name, clients, ref) {
     return <Swimlane name={name} clients={clients} dragulaRef={ref} />;
   }
+
+  useEffect(() => {
+    const drake = dragula([
+      swimlanes.backlog.current,
+      swimlanes.inProgress.current,
+      swimlanes.complete.current,
+    ]);
+
+    drake.on("drop", (el, target, source, sibling) => {
+      // console.log("el", el.datalist);
+      // console.log("target", target, "source", source, "sibling", sibling);
+      el.classList.remove("Card-grey");
+      el.classList.remove("Card-blue");
+      el.classList.remove("Card-green");
+      const status = target.ariaLabel;
+      // console.log();
+      el.classList.add(
+        status == "Backlog"
+          ? "Card-grey"
+          : status == "In Progress"
+          ? "Card-blue"
+          : "Card-green"
+      );
+    });
+
+    return () => {
+      drake.destroy();
+    };
+  });
 
   return (
     <div className="Board">
